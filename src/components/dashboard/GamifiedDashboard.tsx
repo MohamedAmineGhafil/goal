@@ -1,5 +1,5 @@
 // src/components/dashboard/GamifiedDashboard.tsx
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import TaskWindow from './TaskWindow';
 import ProgressManager from './ProgressManager';
 import TaskManager from './TaskManager';
@@ -8,6 +8,9 @@ import { Calendar, Download, Upload } from 'lucide-react';
 import { useTaskProgress } from '../../hooks/useTaskProgress';
 import { initialCategories } from '../../data/initialCategories';
 import { getRankForXP, getAverageRank } from '../../types/ranking';
+import { TaskFrequency } from '../../types/tasks';
+
+// In GamifiedDashboard.tsx
 
 const GamifiedDashboard: React.FC = () => {
   const {
@@ -27,7 +30,7 @@ const GamifiedDashboard: React.FC = () => {
     exportProgress,
     importProgress
   } = useTaskProgress(initialCategories);
-
+  
   const [currentView, setCurrentView] = useState<'dashboard' | 'calendar'>('dashboard');
   const [managingCategory, setManagingCategory] = useState<string | null>(null);
   const [showNewCategory, setShowNewCategory] = useState(false);
@@ -35,9 +38,13 @@ const GamifiedDashboard: React.FC = () => {
     title: '',
     emoji: '📋'
   });
-
+  
+  const handleRemoveTask = useCallback((categoryId: string, frequency: TaskFrequency, taskIndex: number) => {
+    removeTask(categoryId, frequency, taskIndex);
+  }, [removeTask]);
+  
   const averageRank = getAverageRank(categoryXP);
-
+  
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       {/* Project Delta Header */}
@@ -112,16 +119,17 @@ const GamifiedDashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {Object.entries(categories).map(([id, category]) => (
               <TaskWindow
-                key={id}
-                categoryId={id}
-                title={category.title}
-                tasks={category.tasks}
-                categoryXP={categoryXP[id] || 0}
-                rank={getRankForXP(categoryXP[id] || 0)}
-                onComplete={(type, index) => handleComplete(id, type, index)}
-                onDecrement={(type, index) => handleDecrement(id, type, index)}
-                onManage={() => setManagingCategory(id)}
-              />
+              key={id}
+              categoryId={id}
+              title={category.title}
+              tasks={category.tasks}
+              categoryXP={categoryXP[id] || 0}
+              rank={getRankForXP(categoryXP[id] || 0)}
+              onComplete={(type, index) => handleComplete(id, type, index)}
+              onDecrement={(type, index) => handleDecrement(id, type, index)}
+              onRemoveTask={(type, index) => handleRemoveTask(id, type, index)}
+              onManage={() => setManagingCategory(id)}
+            />
             ))}
           </div>
 

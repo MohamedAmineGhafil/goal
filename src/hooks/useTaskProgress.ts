@@ -148,17 +148,14 @@ export const useTaskProgress = (initialCategories: Categories) => {
     });
   }, [setCategories]);
 
-  const removeTask = useCallback((
-    categoryId: string,
-    taskIndex: number,
-    frequency: keyof TasksByFrequency
-  ) => {
+  const removeTask = useCallback((categoryId: string, type: keyof TasksByFrequency, index: number) => {
     setCategories(prev => {
       const newCategories = { ...prev };
-      newCategories[categoryId].tasks[frequency].splice(taskIndex, 1);
+      newCategories[categoryId].tasks[type] = newCategories[categoryId].tasks[type].filter((_, i) => i !== index);
+      localStorage.setItem('categories', JSON.stringify(newCategories));
       return newCategories;
     });
-  }, [setCategories]);
+  }, []);
 
   const editCategory = useCallback((categoryId: string, newTitle: string) => {
     setCategories(prev => ({

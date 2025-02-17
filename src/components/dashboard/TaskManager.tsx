@@ -10,7 +10,7 @@ interface TaskManagerProps {
       xp: number;
       frequency: TaskFrequency;
     }) => void;
-    onRemoveTask: (categoryId: string, taskIndex: number, frequency: TaskFrequency) => void;
+    onRemoveTask: (categoryId: string, frequency: TaskFrequency, taskIndex: number) => void;  // Updated order
     onEditCategory: (categoryId: string, newTitle: string) => void;
     onDeleteCategory: (categoryId: string) => void;
     onClose: () => void;
