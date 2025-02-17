@@ -1,0 +1,10 @@
+* {
+    font-family: 'DOS', monospace;
+    image-rendering: pixelated;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #111827; /* dark gray */
+  }

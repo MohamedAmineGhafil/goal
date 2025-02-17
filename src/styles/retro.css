@@ -1,0 +1,32 @@
+/* src/styles/retro.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .retro-window {
+    @apply bg-[#1a1a2e] border border-gray-700;
+    box-shadow: 0 0 10px rgba(75, 123, 255, 0.5);
+  }
+  
+  .retro-title-bar {
+    @apply bg-[#1a1a2e] px-2 py-1 border-b border-gray-700 flex justify-between items-center;
+  }
+
+  .retro-button {
+    @apply px-2 py-1 bg-[#1a1a2e] border border-gray-700 hover:bg-[#2a2a3e] transition-colors;
+  }
+}
+
+@font-face {
+  font-family: 'FSEX300';
+  src: url('/fonts/FSEX300.ttf') format('truetype');
+}
+
+* {
+  font-family: 'FSEX300', monospace;
+}
+
+body {
+  @apply bg-[#0a0a17] text-white;
+}
